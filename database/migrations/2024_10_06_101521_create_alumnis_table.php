@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('alumni_code');
             $table->string('full_name');
+            $table->string('arabic_name')->nullable();
             $table->string('alias')->nullable();
             $table->string('birth_place');
             $table->date('birth_date');
@@ -27,9 +28,14 @@ return new class extends Migration
             $table->enum('marital_status', ['Menikah', 'Lajang', 'Cerai Talak', 'Cerai Mati'])->default('Lajang');
             $table->decimal('ma_average', total: 8, places: 2)->nullable();
             $table->decimal('im_average', total: 8, places: 2)->nullable();
+            $table->string('father_name');
+            $table->boolean('father_status');
+            $table->string('mother_name');
+            $table->boolean('mother_status');
             $table->string('whatsapp');
             $table->string('emergency_contact');
             $table->string('email');
+            $table->boolean('is_visible_whatsapp')->default(true);
             $table->string('linkedin')->nullable();
             $table->string('photo_link');
             $table->string('drive_link');

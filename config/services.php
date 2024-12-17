@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'wablas' => [
+        'url' => env('WABLAS_URL', 'https://tegal.wablas.com/api/send-message'),
+        'token' => env('WABLAS_TOKEN', ''),
+    ],
+
 ];

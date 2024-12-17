@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('alias')->nullable();
-            $table->string('logo')->default('kampus/default.png');
+            $table->string('logo')->nullable();
             $table->boolean('is_featured')->default(false);
             $table->enum('univ_type', ['PTN', 'PTK', 'PTS', 'PTA', 'PTM', 'PTLN']);
             $table->timestamps();

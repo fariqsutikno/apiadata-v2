@@ -8,6 +8,16 @@ enum CompletionStatus: string
     case LULUS = 'Lulus';
     case BERHENTI = 'Berhenti';
 
+
+    public function label(): string 
+    {
+        return match($this) {
+            self::SEDANG_BERJALAN => 'Sedang Berjalan',
+            self::LULUS => 'Lulus',
+            self::BERHENTI => 'Berhenti'
+        };
+    }
+
     public static function labels(): array
     {
         return [

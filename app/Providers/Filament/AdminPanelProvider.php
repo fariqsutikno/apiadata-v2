@@ -46,7 +46,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
-                FilamentEditProfilePlugin::make()
+                // FilamentEditProfilePlugin::make()
             ])
             ->middleware([
                 EncryptCookies::class,

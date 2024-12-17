@@ -24,6 +24,7 @@ class InterestResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Minat & Bakat';
+    protected static ?string $navigationGroup = 'Data Isian';
 
     public static function getModelLabel(): string
     {

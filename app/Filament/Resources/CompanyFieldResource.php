@@ -20,6 +20,7 @@ class CompanyFieldResource extends Resource
     protected static ?string $model = CompanyField::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Data Isian';
 
     public static function form(Form $form): Form
     {

@@ -34,6 +34,7 @@ class UniversityResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Data Perguruan Tinggi';
+    protected static ?string $navigationGroup = 'Data Isian';
 
     public static function getModelLabel(): string
     {
@@ -59,8 +60,7 @@ class UniversityResource extends Resource
                                     ->required(),
                                 TextInput::make('alias')
                                     ->label('Nama Alias')
-                                    ->helperText('Tuliskan nama populer atau singkatan di sini. Seperti UGM, Undip, dst. Kolom ini untuk memudahkan pencarian nantinya.')
-                                    ->required(),
+                                    ->helperText('Tuliskan nama populer atau singkatan di sini. Seperti UGM, Undip, dst. Kolom ini untuk memudahkan pencarian nantinya.'),
                                 FileUpload::make('logo')
                                     ->label('Logo Kampus')
                                     ->image()

@@ -8,6 +8,15 @@ enum FundingSource: string
     case BEASISWA = 'Beasiswa';
     case LAINNYA = 'Lainnya';
 
+    public function label(): string
+    {
+        return match($this) {
+            self::BIAYA_SENDIRI => 'Biaya Sendiri',
+            self::BEASISWA => 'Beasiswa',
+            self::LAINNYA => 'Lainnya',
+        };
+    }
+
     public static function labels(): array
     {
         return [

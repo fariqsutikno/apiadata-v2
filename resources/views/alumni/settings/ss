@@ -1,0 +1,57 @@
+<x-alumni.child-layout>
+    <x-alumni.header
+        title="Identitas Diri"
+        subtitle="Pusat Profil"
+    ></x-alumni.header>
+
+    <!-- Tab Navigation -->
+    <div class="px-4 pt-2">
+        <div class="flex flex-wrap gap-2 mb-4">
+            <button id="tab1-btn" class="tab-button py-2 px-4 text-sm font-medium rounded-full bg-primary text-white hover:bg-secondary hover:text-white transition-colors" onclick="showTab('tab1')">Data Pribadi</button>
+            <button id="tab2-btn" class="tab-button py-2 px-4 text-sm font-medium rounded-full bg-white text-primary hover:bg-secondary hover:text-white transition-colors" onclick="showTab('tab2')">Nomor Identitas</button>
+            <button id="tab3-btn" class="tab-button py-2 px-4 text-sm font-medium rounded-full bg-white text-primary hover:bg-secondary hover:text-white transition-colors" onclick="showTab('tab3')">Data Orang Tua</button>
+            <button id="tab4-btn" class="tab-button py-2 px-4 text-sm font-medium rounded-full bg-white text-primary hover:bg-secondary hover:text-white transition-colors" onclick="showTab('tab4')">Alamat</button>
+            <button id="tab5-btn" class="tab-button py-2 px-4 text-sm font-medium rounded-full bg-white text-primary hover:bg-secondary hover:text-white transition-colors" onclick="showTab('tab5')">Kontak</button>
+        </div>
+        
+        <div id="tab1" class="tab-content">
+        </div>
+        <div id="tab2" class="tab-content hidden">
+        </div>
+        <div id="tab3" class="tab-content hidden">
+        </div>
+        <div id="tab4" class="tab-content hidden">
+        </div>
+        <div id="tab5" class="tab-content hidden">
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Sembunyikan semua konten tab
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Update style button
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('bg-primary');
+                button.classList.add('bg-white');
+                button.classList.remove('text-white');
+                button.classList.add('text-primary');
+            });
+            
+            // Set style untuk button aktif
+            const activeBtn = document.getElementById(tabId + '-btn');
+            activeBtn.classList.remove('bg-white');
+            activeBtn.classList.add('bg-primary');
+            activeBtn.classList.remove('text-primary');
+            activeBtn.classList.add('text-white');
+        }
+    </script>
+</x-alumni.child-layout>
+
+

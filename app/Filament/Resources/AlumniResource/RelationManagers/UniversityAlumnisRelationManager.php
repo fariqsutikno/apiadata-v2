@@ -18,8 +18,10 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -144,7 +146,7 @@ class UniversityAlumnisRelationManager extends RelationManager
                     
                                     $value = (int) $value;
                     
-                                    if ($value < $startYear) {
+                                    if ($value < $startYear) { 
                                         $fail("Tahun Selesai harus sama dengan atau lebih besar dari Tahun Mulai.");
                                     }
                     
@@ -179,10 +181,24 @@ class UniversityAlumnisRelationManager extends RelationManager
                         }),
                 
                 
-                Select::make('admission_path')
-                    ->label('Jalur Penerimaan')
-                    ->options(AdmissionPath::labels())
-                    ->required(),
+                        Select::make('admission_path')
+                        ->label('Jalur Penerimaan')
+                        ->options(AdmissionPath::labels())
+                        ->required()
+                        ->live() // Ini penting! Untuk membuat field reaktif terhadap perubahan
+                        ->afterStateUpdated(function ($state, callable $set) {
+                            // Jika bukan SNBT, kosongkan nilai snbt_score
+                            if ($state !== 'SNBT') {
+                                $set('snbt_score', null);
+                            }
+                        }),
+                    
+                    TextInput::make('snbt_score')
+                        ->label('Nilai SNBT')
+                        ->numeric()
+                        ->visible(fn (Get $get) => $get('admission_path') === 'SNBT') // Field hanya muncul jika admission_path = SNBT
+                        ->required(fn (Get $get) => $get('admission_path') === 'SNBT'), // Wajib diisi hanya jika admission_path = SNBT
+                    
                 
                 Group::make()
                         ->schema([
@@ -228,9 +244,12 @@ class UniversityAlumnisRelationManager extends RelationManager
                     ->label('Sampai')
                     ->toggleable()
                     ->sortable(),
-                // BooleanColumn::make('is_accepted')
-                //     ->label('Diterima'),
-                // TextColumn::make('admission_path'),
+                IconColumn::make('is_accepted')
+                    ->label('Diterima')
+                    ->boolean(),
+                TextColumn::make('admission_path')
+                    ->label("Jalur Penerimaan")
+                    ->toggleable(),
                 TextColumn::make('completion_status')
                     ->label('Status Perkuliahan')
                     ->badge()

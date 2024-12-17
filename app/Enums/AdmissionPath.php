@@ -13,6 +13,20 @@ enum AdmissionPath: string
     case KEDINASAN = 'Kedinasan';
     case LAINNYA = 'Lainnya';
 
+    public function label(): string
+    {
+        return match($this) {
+            self::SNBT => 'SNBT',
+            self::SNBP => 'SNBP',
+            self::UMPTKIN => 'UM PTKIN',
+            self::SPANPTKIN => 'SPAN PTKIN',
+            self::JALUR_PRESTASI => 'Mandiri Prestasi (Tahfiz, Sertifikat, Organisasi, Minhatee/SIS, Dll.)',
+            self::MANDIRI => 'Mandiri Non Prestasi (Tes Mandiri, Biro Jasa, Kader, Dll.)',
+            self::KEDINASAN => 'Kedinasan',
+            self::LAINNYA => 'Lainnya',
+        };
+    }
+
     public static function labels(): array
     {
         return [

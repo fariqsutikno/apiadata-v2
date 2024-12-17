@@ -1,0 +1,172 @@
+<div>
+    <form wire:submit="save" method="post">
+        {{-- <div class="my-3">
+            <label for="province" class="text-white">Provinsi</label>
+            <select id="province" class="w-full mx-auto mt-2" wire:model.live="selectedProvince">
+                <option value="">Pilih Provinsi</option>
+                @foreach ($provinces as $province)
+                    <option value="{{ $province->id }}">{{ $province->name }}</option>
+                @endforeach
+            </select>
+        </div> --}}
+
+        <div class="my-3">
+            <label for="university" class="text-white">Provinsi</label>
+            <select id="university" class="w-full mx-auto mt-2" wire:model.live="selectedUniversity">
+                <option value="">Pilih Provinsi</option>
+                @foreach ($universities as $university)
+                    <option value="{{ $university->id }}">{{ $university->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- @if (!is_null($selectedUniversity))         --}}
+            <div class="my-6">
+                <label for="program" class="text-white">Kota/Kabupaten</label>
+                <select id="program" class="w-full mx-auto mt-2" wire:model.live="selectedProgram">
+                    <option value="">Pilih Kota/Kabupaten</option>
+                    @if ($selectedUniversity)
+                        
+                    @foreach ($programs as $program)
+                        <option value="{{ $program->id }}">{{ $program->name }}</option>
+                    @endforeach
+                    @endif
+                </select>
+            </div>
+        {{-- @endif --}}
+        
+        {{-- @if (!is_null($selectedProvince))        
+            <div class="my-6">
+                <label for="regency" class="text-white">Kota/Kabupaten</label>
+                <select id="regency" class="w-full mx-auto mt-2" wire:model.live="selectedRegency">
+                    <option value="">Pilih Kota/Kabupaten</option>
+                    @if ($selectedProvince)
+                        
+                    @foreach ($regencies as $regency)
+                        <option value="{{ $regency->id }}">{{ $regency->name }}</option>
+                    @endforeach
+                    @endif
+                </select>
+            </div>
+        @endif
+    
+        @if (!is_null($selectedRegency))        
+        <div class="my-6">
+            <label for="district" class="text-white">Kecamatan</label>
+            <select id="district" class="w-full mx-auto mt-2">
+                <option value="">Pilih Kecamatan</option>
+                @if ($selectedRegency)
+                @foreach ($districts as $district)
+                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                @endforeach
+                @endif
+            </select>
+        </div>
+        @endif --}}
+        <button type="submit" class="bg-primary py-2 px-4 rounded-xl text-white">Save</button>
+    </form>
+</div>
+
+
+@assets
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+@endassets
+
+@script
+<script>
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function() {
+        $('#university').select2();
+        $('#university').on('change', function(event){
+            // console.log(event.target.value);
+            $wire.$set('selectedUniversity', event.target.value);
+        });
+    });
+    $(document).ready(function() {
+        $('#program').select2();
+        // $('#program').on('change', function(event){
+        //     // console.log(event.target.value);
+        //     $wire.$set('selectedUniversity', event.target.value);
+        // });
+    });
+    $(document).ready(function() {
+        $('#province').select2();
+        $('#province').on('change', function(event){
+            // console.log(event.target.value);
+            $wire.$set('selectedProvince', event.target.value);
+        });
+    });
+    $(document).ready(function() {
+        $('#regency').select2();
+        $('#regency').on('change', function(event){
+            // console.log(event.target.value);
+            $wire.$set('selectedRegency', event.target.value);
+        });
+    });
+    $(document).ready(function() {
+        $('#district').select2();
+        $('#district').on('change', function(event){
+            console.log(event.target.value);
+            // $wire.$set('selectedProvince', event.target.value);
+        });
+    });
+</script>
+@endscript
+
+<script>
+    $(document).ready(function() {
+        // Select2 untuk Provinsi dengan Remote Data
+        $('.select2-provinsi').select2({
+            placeholder: 'Cari Provinsi',
+            ajax: {
+                url: '{{ route("get.provinsi") }}',
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        }).on('change', function() {
+            @this.set('provinsi_id', $(this).val());
+            
+            // Reset Kota Select2
+            $('.select2-kota').val(null).trigger('change');
+            $('.select2-kota').select2('destroy');
+            initKotaSelect2();
+        });
+
+        // Fungsi untuk inisialisasi Select2 Kota
+        function initKotaSelect2() {
+            $('.select2-kota').select2({
+                placeholder: 'Cari Kota',
+                ajax: {
+                    url: '{{ route("get.kota") }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term,
+                            provinsi_id: $('.select2-provinsi').val()
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                },
+                disabled: $('.select2-provinsi').val() ? false : true
+            }).on('change', function() {
+                @this.set('kota_id', $(this).val());
+            });
+        }
+
+        initKotaSelect2();
+    });
+</script>

@@ -11,11 +11,12 @@ class Survey extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'alumni_id',
         'univ_factor',
         'program_factor',
         'activity',
         'pia_impact',
+        'kritik'
     ];
 
     protected $casts = [
@@ -25,12 +26,12 @@ class Survey extends Model
         'pia_impact' => 'array',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
     
-        static::creating(function ($model) {
-            $model->user_id = auth()->id();
-        });
-    }
+    //     static::creating(function ($model) {
+    //         $model->user_id = auth()->id();
+    //     });
+    // }
 }

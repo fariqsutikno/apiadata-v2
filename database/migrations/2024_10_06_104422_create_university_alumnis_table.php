@@ -16,14 +16,18 @@ return new class extends Migration
             $table->foreignId('alumni_id')->constrained()->cascadeOnDelete();
             $table->foreignId('university_id')->constrained()->cascadeOnDelete();
             $table->foreignId('program_id')->constrained()->cascadeOnDelete();
-            $table->year('start')->nullable();
-            $table->year('end')->nullable();
-            $table->enum('completion_status', ['Lulus', 'Sedang Berjalan', 'Berhenti']);
+            $table->tinyInteger('month_start')->nullable();
+            $table->smallInteger('year_start')->nullable();
+            $table->tinyInteger('month_end')->nullable();
+            $table->smallInteger('year_end')->nullable();
+            $table->enum('completion_status', ['Lulus', 'Sedang Berjalan', 'Berhenti'])->nullable();
             $table->enum('admission_path', ['SNBT', 'SNBP', 'UMPTKIN', 'SPANPTKIN', 'Jalur Prestasi', 'Mandiri', 'Kedinasan', 'Lainnya']);
             $table->enum('funding_source', ['Biaya Sendiri', 'Beasiswa', 'Lainnya'])->nullable();
-            $table->boolean('is_accepted');
+            $table->boolean('is_accepted')->nullable();
             $table->boolean('is_enrolled')->nullable();
             $table->integer('priority')->nullable();
+            $table->boolean('is_visible')->default(true);
+            $table->integer('snbt_score')->nullable();
             $table->timestamps();
         });
     }

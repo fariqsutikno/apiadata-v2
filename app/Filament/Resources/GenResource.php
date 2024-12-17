@@ -25,6 +25,7 @@ class GenResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Angkatan';
+    protected static ?string $navigationGroup = 'Data Isian';
 
     public static function getModelLabel(): string
     {
@@ -89,7 +90,7 @@ class GenResource extends Resource
         return [
             'index' => Pages\ListGens::route('/'),
             // 'create' => Pages\CreateGen::route('/create'),
-            'edit' => Pages\EditGen::route('/{record}/edit'),
+            // 'edit' => Pages\EditGen::route('/{record}/edit'),
         ];
     }
 }

@@ -55,7 +55,7 @@ class InterestsRelationManager extends RelationManager
                 // Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make()
                 ->recordSelect(
-                    fn (Select $select) => $select->placeholder('Select a interes'),
+                    fn (Select $select) => $select->placeholder('Select a interest'),
                 )
             ])
             ->actions([

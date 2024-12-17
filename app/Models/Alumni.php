@@ -2,16 +2,26 @@
 
 namespace App\Models;
 
+use App\Services\EncryptionService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Crypt;
 
 class Alumni extends Model
 {
     use HasFactory;
+
+    protected $encryptionService;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->encryptionService = app(EncryptionService::class);
+    }
 
     protected $fillable = [
         'user_id',
@@ -48,6 +58,7 @@ class Alumni extends Model
         'mother_name',
         'mother_status',
         'actived_at',
+        'is_visible_whatsapp'
     ];
 
     public function gen(): BelongsTo
@@ -58,6 +69,11 @@ class Alumni extends Model
     public function organizationAlumnis(): HasMany
     {
         return $this->hasMany(OrganizationAlumni::class, 'alumni_id');
+    }
+
+    public function organizations(): BelongsToMany
+    {
+        return $this->belongsToMany(Organization::class, 'organization_alumni', 'alumni_id', 'organization_id');
     }
 
     public function classes(): BelongsToMany
@@ -120,4 +136,39 @@ class Alumni extends Model
         return $this->belongsTo(Village::class);
     }
 
+    // Mutator untuk NIK
+    public function setNikAttribute($value)
+    {
+        $this->attributes['nik'] = $this->encryptionService->encrypt($value);
+    }
+
+    // Mutator untuk Nomor Paspor
+    public function setPassportNumberAttribute($value)
+    {
+        $this->attributes['passport_number'] = $this->encryptionService->encrypt($value);
+    }
+
+    // Mutator untuk Nama Ibu
+    public function setMotherNameAttribute($value)
+    {
+        $this->attributes['mother_name'] = $this->encryptionService->encrypt($value);
+    }
+
+    // Accessor untuk NIK
+    public function getNikAttribute($value)
+    {
+        return $this->encryptionService->decrypt($value);
+    }
+
+    // Accessor untuk Nomor Paspor
+    public function getPassportNumberAttribute($value)
+    {
+        return $this->encryptionService->decrypt($value);
+    }
+
+    // Accessor untuk Nama Ibu
+    public function getMotherNameAttribute($value)
+    {
+        return $this->encryptionService->decrypt($value);
+    }
 }

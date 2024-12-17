@@ -13,7 +13,7 @@ class EditAlumni extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            // Actions\DeleteAction::make(),
         ];
     }
 
@@ -24,6 +24,6 @@ class EditAlumni extends EditRecord
 
     public function getContentTabLabel(): ?string
     {
-        return 'Customers';
+        return 'Data Pribadi';
     }
 }
